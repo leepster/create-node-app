@@ -43,7 +43,10 @@ async function main() {
   await cp(source, process.cwd(), { recursive: true })
 
   for await (const filename of readdirRecursive(source)) {
-    console.log(chalk.greenBright('created:'), chalk.cyanBright(filename.replace(join(process.cwd(), 'template/'), '')))
+    console.log(
+      chalk.greenBright('created:'),
+      chalk.cyanBright(filename.replace(join(dirname(fileURLToPath(import.meta.url)), 'template/'), ''))
+    )
   }
 }
 
