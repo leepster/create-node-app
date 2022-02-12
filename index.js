@@ -44,7 +44,7 @@ async function main() {
 
   const source = join(dirname(fileURLToPath(import.meta.url)), './template')
 
-  // TODO: why isn't this copying the .gitignore file - applied a manual workaround instead below
+  // TODO: why isn't this copying the .gitignore file and the .idea folder? - applied a manual workaround instead below
   await cp(source, process.cwd(), { recursive: true })
 
   for await (const filename of readdirRecursive(source)) {
@@ -60,6 +60,18 @@ async function main() {
 node_modules`
   )
   console.log(chalk.greenBright('created:'), chalk.cyanBright('.gitignore'))
+
+  await writeFile(
+    join(process.cwd(), '.idea/prettier.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PrettierConfiguration">
+    <option name="myRunOnSave" value="true" />
+    <option name="myRunOnReformat" value="true" />
+  </component>
+</project>`
+  )
+  console.log(chalk.greenBright('created:'), chalk.cyanBright('.idea/prettier.xml'))
 }
 
 main().catch((error) => console.error(error))
