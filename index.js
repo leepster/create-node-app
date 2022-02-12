@@ -38,8 +38,11 @@ async function execShellCommand(command) {
 async function main() {
   await execShellCommand('git init')
   await execShellCommand('npm init -y')
+  await execShellCommand('npm i prettier -D')
 
   const source = join(dirname(fileURLToPath(import.meta.url)), './template')
+
+  // TODO: why isn't this copying the .gitignore file and the .idea folder?
   await cp(source, process.cwd(), { recursive: true })
 
   for await (const filename of readdirRecursive(source)) {
