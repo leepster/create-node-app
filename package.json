@@ -1,0 +1,28 @@
+{
+  "bin": "./index.js",
+  "name": "@leepster/create-node-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leepster/create-node-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leepster/create-node-app/issues"
+  },
+  "homepage": "https://github.com/leepster/create-node-app#readme",
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "@leepster/node-console": "^1.0.1"
+  }
+}
