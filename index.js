@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk'
-import { readdir, cp, writeFile } from 'fs/promises'
+import { existsSync } from 'fs'
+import { readdir, cp, writeFile, mkdir } from 'fs/promises'
 import { join, dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { exec } from 'child_process'
@@ -61,6 +62,9 @@ node_modules`
   )
   console.log(chalk.greenBright('created:'), chalk.cyanBright('.gitignore'))
 
+  if (!existsSync(join(process.cwd(), '.idea'))) {
+    await mkdir(join(process.cwd(), '.idea'))
+  }
   await writeFile(
     join(process.cwd(), '.idea/prettier.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>
@@ -72,6 +76,9 @@ node_modules`
 </project>`
   )
   console.log(chalk.greenBright('created:'), chalk.cyanBright('.idea/prettier.xml'))
+
+  await execShellCommand('git add .')
+  await execShellCommand('git commit -m "initial commit"')
 }
 
 main().catch((error) => console.error(error))
