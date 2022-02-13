@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk'
+import prettier from 'prettier'
 import { existsSync } from 'fs'
 import { readdir, cp, writeFile, mkdir, readFile } from 'fs/promises'
 import { join, dirname, resolve, basename } from 'path'
@@ -100,7 +101,8 @@ async function createNpmStartScript() {
   const settings = await getPackageSettings()
   settings.scripts = settings.scripts || {}
   settings.scripts.start = 'node index'
-  await writeFile('./package.json', JSON.stringify(settings))
+  const buffer = JSON.stringify(settings)
+  await writeFile('./package.json', prettier.format(buffer, { parser: 'json' }))
 }
 
 async function main() {
