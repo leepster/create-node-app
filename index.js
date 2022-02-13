@@ -111,6 +111,7 @@ async function main() {
   await execShellCommand('npm i prettier -D')
   await copyTemplateFiles()
   await replaceTextInFile('./LICENSE', '{{package-name}}', await getPackageName())
+  await replaceTextInFile('./README.md', '{{package-name}}', await getPackageName())
   await createGitIgnoreFile()
   await createIdeaPrettierSettingsFile()
   await createNpmStartScript()
