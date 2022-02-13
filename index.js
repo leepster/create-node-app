@@ -86,10 +86,21 @@ async function replaceTextInFile(filepath, text, replacement) {
   await writeFile(filepath, contents.replace(regex, replacement))
 }
 
-async function getPackageName() {
+async function getPackageSettings() {
   const contents = await readFile('./package.json', { encoding: 'utf-8' })
-  const settings = JSON.parse(contents)
+  return JSON.parse(contents)
+}
+
+async function getPackageName() {
+  const settings = await getPackageSettings()
   return settings.name
+}
+
+async function createNpmStartScript() {
+  const settings = await getPackageSettings()
+  settings.scripts = settings.scripts || {}
+  settings.scripts.start = 'node index'
+  await writeFile('./package.json', JSON.stringify(settings))
 }
 
 async function main() {
@@ -100,6 +111,7 @@ async function main() {
   await replaceTextInFile('./LICENSE', '{{package-name}}', await getPackageName())
   await createGitIgnoreFile()
   await createIdeaPrettierSettingsFile()
+  await createNpmStartScript()
   await execShellCommand('git add .')
   await execShellCommand('git commit -m "initial commit"')
 }
